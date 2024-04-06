@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Platform, StyleSheet, Pressable } from 'react-native';
+import { View, TextInput, TouchableOpacity, Platform, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomText from '../components/CustomText/CustomText';
 import Layout from "../layout/Layout"
 import { useDispatch } from 'react-redux';
-import { addExpense } from '../redux/slice/slice';
+import { addExpense } from '../redux/slice/expenseSlice';
+import InputForm from '../components/InputForm/InputForm';
 function AddExpense() {
   const dispatch = useDispatch();
   const [expenseName, setExpenseName] = useState('');
@@ -26,11 +27,15 @@ function AddExpense() {
   const handleAdd = () => {
     const uniq = 'e' + (new Date()).getTime();
     const expense = {id: uniq, description: expenseName, amount: +expenseAmount, date: new Date(chosenDate)}
+    if(expenseName.length == 0) {
+      expense.description = "Untitle"
+    }
     
     dispatch(addExpense(expense))
     setExpenseName('');
     setExpenseAmount('');
     setChosenDate(new Date())
+    alert("Add success")
   };
 
   function formatDate(date){
@@ -42,44 +47,11 @@ function AddExpense() {
 
   return (
     <Layout>
-      <View style={styles.container}>
-      <CustomText style={styles.label}>Title:</CustomText>
-      <TextInput
-        style={styles.input}
-        value={expenseName}
-        onChangeText={text => setExpenseName(text)}
-        placeholder="Enter expense title"
-      />
-      <CustomText style={styles.label}>Expense Amount:</CustomText>
-      <TextInput
-        style={styles.input}
-        value={expenseAmount}
-        onChangeText={text => setExpenseAmount(text)}
-        placeholder="Enter expense amount"
-        keyboardType="numeric"
-      />
-
-      <CustomText style={styles.label}>Date</CustomText>
-
-      <View style={[styles.input, {justifyContent: "space-between", flexDirection: "row", alignItems: "center"}]}>
-        <CustomText>{formatDate(chosenDate)}</CustomText>
-        <Pressable onPress={() => setShowDatePicker(true)}>
-            <FontAwesome name="calendar" size={24} color="black" />
-        </Pressable>
-      </View>
-
-      {showDatePicker && (
-        <DateTimePicker
-          value={chosenDate}
-          mode="date"
-          display="default"
-          onChange={handleDateChange}
-        />
-      )}
-      <TouchableOpacity style={styles.button} onPress={handleAdd}>
-        <CustomText style={styles.buttonText}>Add</CustomText>
-      </TouchableOpacity>
-    </View>
+        <ScrollView>
+          <View style={styles.container}>
+              <InputForm title="Add Expense" />
+          </View>
+        </ScrollView>    
     </Layout>
   );
 };
@@ -90,9 +62,32 @@ const styles = StyleSheet.create({
       flex: 1,
       paddingHorizontal: 20,
       paddingVertical: 20,
+      paddingBottom: 50,
+      height: "100%",
+    },
+    form: {
+      backgroundColor: "white",
+      paddingVertical: 20,
+      paddingHorizontal: 30,
+      borderRadius: 15,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 8,
+      },
+      shadowOpacity: 0.44,
+      shadowRadius: 10.32,
+
+      elevation: 16,
+    },
+    heading: {
+      textAlign: "center",
+
     },
     label: {
-      fontSize: 18,
+      fontSize: 16,
+      fontWeight: "bold",
+      marginTop: 20,
       marginBottom: 5,
     },
     input: {
@@ -104,11 +99,12 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
     button: {
-      backgroundColor: '#007bff',
+      backgroundColor: '#b30021',
       paddingVertical: 10,
       borderRadius: 5,
       alignItems: 'center',
-      marginBottom: 10,
+      marginVertical: 10,
+      
     },
     buttonText: {
       color: '#fff',

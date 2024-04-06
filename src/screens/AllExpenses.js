@@ -4,7 +4,7 @@ import TrackingLayout from "../layout/TrackingLayout/TrackingLayout";
 import { useSelector } from 'react-redux';
 
 function AllExpenses() {
-    const expenses = useSelector(state => state.expense.expenses);
+    const expenses = useSelector(state => state.expensesReducer.expenses);
 
     return ( 
         <Layout>

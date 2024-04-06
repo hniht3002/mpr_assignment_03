@@ -3,7 +3,7 @@ import Layout from "../layout/Layout";
 import TrackingLayout from "../layout/TrackingLayout/TrackingLayout";
 import { useSelector } from 'react-redux';
 function RecentExpense() {
-    const expenses = useSelector(state => state.expense.expenses);
+    const expenses = useSelector(state => state.expensesReducer.expenses);
     // Get the current date
     const currentDate = new Date();
     // Calculate the date 7 days ago

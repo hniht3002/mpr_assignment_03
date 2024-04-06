@@ -30,4 +30,4 @@ const expenseSlice = createSlice({
   });
 
 export const {addExpense, editExpense, deleteExpense} = expenseSlice.actions
-export default expenseSlice.reducer;
+export default expenseSlice

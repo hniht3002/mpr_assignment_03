@@ -1,8 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import expenseReducer from "../slice/slice"
+import expenseSlice from '../slice/expenseSlice';
+import orientationSlice from '../slice/orientationSlice';
 
 const rootReducer = combineReducers({
-    expense: expenseReducer
+    expensesReducer: expenseSlice.reducer,
+    orientationReducer: orientationSlice.reducer
 })
 
 export default rootReducer
