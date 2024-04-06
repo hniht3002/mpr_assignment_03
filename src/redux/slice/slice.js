@@ -1,25 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
+import DUMMY_EXPENSES from '../../store/data';
+
 const expenseSlice = createSlice({
     name: 'expense',
     initialState: {
-        expenses: [],
+        expenses: [...DUMMY_EXPENSES],
     },
     reducers: {
       addExpense: (state, action) => {
-        state.expenses.push(action.payload);
+        state.expenses.unshift(action.payload);
       },
       editExpense: (state, action) => {
-        const { id, newData } = action.payload;
-        state.expenses = state.expenses.map(expense =>
-            expense.id === id ? { ...expense, ...newData } : expense
-        );
+        const { id, edited } = action.payload;
+        const index = state.expenses.findIndex(e => e.id === id)
+        
+        if(index != -1) {
+          state.expenses[index] = edited
+        }
       },
       deleteExpense: (state, action) => {
-        const idToDelete = action.payload;
-        state.expenses = state.expenses.filter(expense => expense.id !== idToDelete);
+        const id = action.payload;
+        const index = state.expenses.findIndex(e => e.id === id)
+        console.log(index)
+        if(index != -1) {
+          state.expenses.splice(index, 1)
+        }
       }
     },
   });
 
-export const {add, edit, deleteExpense} = expenseSlice.actions
+export const {addExpense, editExpense, deleteExpense} = expenseSlice.actions
 export default expenseSlice.reducer;

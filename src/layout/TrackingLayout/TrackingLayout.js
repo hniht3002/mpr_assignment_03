@@ -7,6 +7,7 @@ function TrackingLayout({children, title, expenses}) {
     let total = expenses.reduce((total, expense) => total + expense.amount, 0);
     total = Number(total).toFixed(2)
     total = Number(total)
+    console.log(expenses)
 
     return ( 
         <View style={styles.wrapper}>
@@ -16,7 +17,7 @@ function TrackingLayout({children, title, expenses}) {
             </View>
             <ScrollView contentContainerStyle = {{width: "100%", gap: 20}} style={{width: "80%"}}>
             {expenses.map((expense, index) => {
-                return <ExpenseItem expense={expense} key={index}/>
+                return <ExpenseItem expense={expense} key={index} id={expense.id}/>
             })}
             </ScrollView>
         </View>

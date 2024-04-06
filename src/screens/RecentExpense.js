@@ -1,8 +1,9 @@
 import { View } from "react-native";
 import Layout from "../layout/Layout";
 import TrackingLayout from "../layout/TrackingLayout/TrackingLayout";
-import DUMMY_EXPENSES from "../store/data";
+import { useSelector } from 'react-redux';
 function RecentExpense() {
+    const expenses = useSelector(state => state.expense.expenses);
     // Get the current date
     const currentDate = new Date();
     // Calculate the date 7 days ago
@@ -11,7 +12,7 @@ function RecentExpense() {
 
     let expensesWithinSevenDays = []
 
-    DUMMY_EXPENSES.forEach((expense, index) => {
+    expenses.forEach((expense, index) => {
         if(expense.date >= sevenDaysAgo && expense.date <= currentDate){
             expensesWithinSevenDays.push(expense)
         }

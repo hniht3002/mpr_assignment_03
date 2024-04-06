@@ -5,12 +5,16 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomText from '../components/CustomText/CustomText';
 import Layout from "../layout/Layout"
 import { useDispatch } from 'react-redux';
-import { addExpense } from '../redux/slice/slice';
-function AddExpense() {
+import { editExpense } from '../redux/slice/slice';
+import { useRoute } from '@react-navigation/native';
+
+function EditExpense() {
   const dispatch = useDispatch();
-  const [expenseName, setExpenseName] = useState('');
-  const [expenseAmount, setExpenseAmount] = useState('');
-  const [chosenDate, setChosenDate] = useState(new Date());
+  const route = useRoute();
+  const { expense, id } = route.params;
+  const [expenseDescription, setExpenseDescription] = useState(expense.description);
+  const [expenseAmount, setExpenseAmount] = useState(expense.amount);
+  const [chosenDate, setChosenDate] = useState(expense.date);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
@@ -23,12 +27,14 @@ function AddExpense() {
     setChosenDate(currentDate);
   };
 
-  const handleAdd = () => {
-    const uniq = 'e' + (new Date()).getTime();
-    const expense = {id: uniq, description: expenseName, amount: +expenseAmount, date: new Date(chosenDate)}
+  const handleEdit = () => {
+    console.log('Expense Title:', expenseDescription);
+    console.log('Expense Amount:', expenseAmount);
+    console.log('Chosen Date:', chosenDate);
+    const expense = {id: id,description: expenseDescription, amount: +expenseAmount, date: new Date(chosenDate)}
     
-    dispatch(addExpense(expense))
-    setExpenseName('');
+    dispatch(editExpense({id: id, edited: expense}))
+    setExpenseDescription('');
     setExpenseAmount('');
     setChosenDate(new Date())
   };
@@ -46,8 +52,8 @@ function AddExpense() {
       <CustomText style={styles.label}>Title:</CustomText>
       <TextInput
         style={styles.input}
-        value={expenseName}
-        onChangeText={text => setExpenseName(text)}
+        value={expenseDescription}
+        onChangeText={text => setExpenseDescription(text)}
         placeholder="Enter expense title"
       />
       <CustomText style={styles.label}>Expense Amount:</CustomText>
@@ -76,15 +82,15 @@ function AddExpense() {
           onChange={handleDateChange}
         />
       )}
-      <TouchableOpacity style={styles.button} onPress={handleAdd}>
-        <CustomText style={styles.buttonText}>Add</CustomText>
+      <TouchableOpacity style={styles.button} onPress={handleEdit}>
+        <CustomText style={styles.buttonText}>Confirm</CustomText>
       </TouchableOpacity>
     </View>
     </Layout>
   );
 };
 
-export default AddExpense;
+export default EditExpense;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
