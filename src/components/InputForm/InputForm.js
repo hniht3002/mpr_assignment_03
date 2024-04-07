@@ -24,21 +24,33 @@ function InputForm({edit = false, id, title, expense = {description: "", amount:
     };
 
     const handleAdd = () => {
+        const today = new Date()
         
         if(edit) {
             const newExpense = {id: expense.id, description: expenseName, amount: +expenseAmount, date: new Date(chosenDate)}
             if(expenseName.length == 0) {
                 newExpense.description = "Untitle"
             }
-            console.log(expense)
-            console.log(newExpense)
+
+            if(newExpense.date > today) {
+              alert("Date should be less than or equal to" + formatDate(today))
+              return
+            }
+            
             dispatch(editExpense({id: id, edited: newExpense}))
             navigation.goBack()
         } else {
             const uniq = 'e' + (new Date()).getTime();
             const newExpense = {id: uniq, description: expenseName, amount: +expenseAmount, date: new Date(chosenDate)}
+
+            
             if(expenseName.length == 0) {
                 expense.description = "Untitle"
+            }
+
+            if(newExpense.date > today) {
+              alert("Date should be less than or equal to " + formatDate(today))
+              return
             }
             dispatch(addExpense(newExpense))
         }
@@ -49,13 +61,11 @@ function InputForm({edit = false, id, title, expense = {description: "", amount:
     };
 
     function formatDate(date){
-        // Format options for DD/MM/YY
-        const options = { day: '2-digit', month: '2-digit', year: '2-digit' };
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         
         return date.toLocaleDateString('en-GB', options);
     }
     return ( 
-
         <View style={styles.form}>
                 <CustomText style={styles.heading}>{title}</CustomText>
                 <View>

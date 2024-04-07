@@ -1,10 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import CustomText from "../../components/CustomText/CustomText";
-import DUMMY_EXPENSES from "../../store/data";
-import ExpenseItem from "../../components/Expense/ExpenseItem";
-import { LinearGradient } from 'expo-linear-gradient';
 import ExpenseList from "../../components/Expense/ExpenseList";
-function TrackingLayout({children, title, expenses}) {
+function TrackingLayout({ title, expenses}) {
     let total = expenses.reduce((total, expense) => total + expense.amount, 0);
     total = Number(total).toFixed(2)
     total = Number(total)

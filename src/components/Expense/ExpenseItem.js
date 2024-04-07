@@ -13,7 +13,7 @@ function ExpenseItem({expense, id}) {
     const [active, setActive] = useState(false)
     function formatDate(date){
         // Format options for DD/MM/YY
-        const options = { day: '2-digit', month: '2-digit', year: '2-digit' };
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         
         return date.toLocaleDateString('en-GB', options);
     }
@@ -45,7 +45,7 @@ export default ExpenseItem;
 const styles = StyleSheet.create({
     wrapper: {
 
-        backgroundColor: "#f3f3f3",
+        backgroundColor: "#fffff7",
         paddingHorizontal: 20,
         paddingVertical: 15,
         alignItems: "center",

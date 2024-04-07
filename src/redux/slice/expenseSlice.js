@@ -21,7 +21,6 @@ const expenseSlice = createSlice({
       deleteExpense: (state, action) => {
         const id = action.payload;
         const index = state.expenses.findIndex(e => e.id === id)
-        console.log(index)
         if(index != -1) {
           state.expenses.splice(index, 1)
         }
